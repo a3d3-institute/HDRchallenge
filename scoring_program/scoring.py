@@ -5,18 +5,19 @@ import numpy as np
 
 # Directory to read labels from
 input_dir = sys.argv[1]
+solutions = os.path.join(input_dir, 'ref')
+prediction_dir = os.path.join(input_dir, 'res')
 
 # Directory to output computed score into
 output_dir = sys.argv[2]
 
-
 def read_prediction():
-    prediction_file = os.path.join(output_dir,'test.predictions')
-
+    prediction_file = os.path.join(prediction_dir,'test.predictions')
 
     # Check if file exists
     if not os.path.isfile(prediction_file):
         print('[-] Test prediction file not found!')
+        print(prediction_file)
         return
 
 
@@ -24,21 +25,22 @@ def read_prediction():
 
     predicted_scores = f.read().splitlines()
     predicted_scores = np.array(predicted_scores,dtype=float)
+    print(predicted_scores)
 
     return predicted_scores
 
 
 def read_solution():
+    print(os.listdir(solutions))
 
-    solution_file = os.path.join(input_dir, 'ligo_blackbox.npz')
+    solution_file = os.path.join(solutions, 'answer.npy')
 
     # Check if file exists
     if not os.path.isfile(solution_file):
         print('[-] Test solution file not found!')
         return
 
-    with np.load(solution_file) as file:
-        test_labels = file[file.files[1]]
+    test_labels = np.load(solution_file)
     
     return test_labels
 

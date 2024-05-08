@@ -8,7 +8,11 @@ class Model:
 
     def predict(self, X):
         # This method should accept an input of any size (of the given input format) and return predictions appropriately
-        return self.clf.predict(X)
+        print("Predicting")
+        b = self.clf.predict(X)
+
+        print("Done predicting")
+        return [i[0] for i in b]
 
     def load(self):
         # This method should load your pretrained model from wherever you have it saved
