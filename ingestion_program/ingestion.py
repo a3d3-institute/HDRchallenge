@@ -72,7 +72,8 @@ def main():
      > Predict
      > Save
     """
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", os.path.join(submission_dir, "requirements.txt")])
+    if os.path.isfile(os.path.join(submission_dir, "requirements.txt")):
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "-r", os.path.join(submission_dir, "requirements.txt")])
 
     start = time.time()
 
