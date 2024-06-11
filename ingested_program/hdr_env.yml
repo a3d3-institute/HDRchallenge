@@ -1,0 +1,9 @@
+name: hdr_env
+channels:
+  - conda-forge
+dependencies:
+  - cudatoolkit
+  - h5py=3.9.0
+  - keras=2.15.0
+  - numpy=1.25.2
+  - tensorflow=2.15.0
