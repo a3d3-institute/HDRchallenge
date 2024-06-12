@@ -1,0 +1,116 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: radial-gradient(circle, #0b1d46 30%, #000000 100%); /* Darker towards the circles */
+    flex-direction: column; /* Stack elements vertically */
+    position: relative;
+    font-family: 'Lato', sans-serif; /* Use Lato font */
+}
+
+.center-link {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff; /* White text color */
+    font-size: 36px; /* Large text size */
+    font-weight: 700; /* Bold text */
+    text-decoration: none; /* Remove underline */
+    z-index: 20;
+    transition: color 0.3s ease;
+}
+
+.center-link:hover {
+    animation: rainbow 1s infinite; /* Add rainbow animation on hover */
+}
+
+@keyframes rainbow {
+    0% { color: #ff0000; }
+    15% { color: #ff7f00; }
+    30% { color: #ffff00; }
+    45% { color: #00ff00; }
+    60% { color: #0000ff; }
+    75% { color: #4b0082; }
+    90% { color: #9400d3; }
+    100% { color: #ff0000; }
+}
+
+.triangle {
+    position: relative;
+    width: 1000px; /* Increase width to accommodate the larger distance */
+    height: 1000px; /* Increase height to accommodate the larger distance */
+}
+
+.circle {
+    position: absolute;
+    width: 300px; /* 3 times larger than the original */
+    height: 300px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #333;
+    transition: transform 0.3s ease;
+    text-decoration: none; /* Remove underline from links */
+}
+
+.circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+}
+
+.hover-text {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #ffffff; /* White text color */
+    font-size: 24px; /* Large text size */
+    font-weight: 400; /* Normal text */
+    text-align: center;
+}
+
+#circle1:hover img {
+    opacity: 0; /* Hide the image */
+}
+
+#circle1:hover .hover-text {
+    display: block; /* Show the text */
+}
+
+#circle2:hover img {
+    opacity: 0; /* Hide the image */
+}
+
+#circle2:hover .hover-text {
+    display: block; /* Show the text */
+}
+
+#circle3:hover img {
+    opacity: 0; /* Hide the image */
+}
+
+#circle3:hover .hover-text {
+    display: block; /* Show the text */
+}
+
+/* Positioning the circles symmetrically with increased distance */
+#circle1 {
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#circle2 {
+    bottom: 50px;
+    left: 50px;
+}
+
+#circle3 {
+    bottom: 50px;
+    right: 50px;
+}
