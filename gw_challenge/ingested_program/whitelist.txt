@@ -3,3 +3,7 @@ tensorflow
 numpy
 scikit-learn
 keras
+torch
+open-clip-torch
+torchvision
+transformers

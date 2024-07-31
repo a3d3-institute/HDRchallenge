@@ -1,10 +1,14 @@
 import sys
 import subprocess
 import os
+import re
 import numpy as np
 import pandas as pd
 import time
 
+
+# expected version pattern for requirements
+VERSION_PATTERN = re.compile("^[0-9].[0-9].[0-9]$")
 
 # Input directory to read test input from
 input_dir = sys.argv[1]
@@ -65,16 +69,31 @@ def print_pretty(text):
 
 def install_from_whitelist(req_file):
 
-    whitelist_file = os.path.join(input_dir, "whitelist.txt")
-    whitelist = open(whitelist_file, 'r').readlines()
+    whitelist = open("/app/program/whitelist.txt", 'r').readlines()
+    whitelist = [i.rstrip('\n') for i in whitelist]
+    print(whitelist)
 
-    for i in whitelist: print(i)
     for package in open(req_file, 'r').readlines():
         package = package.rstrip('\n')
-        package_no_version = ''.join([i for i in package if i.isalpha()])
-
-        if package_no_version in whitelist:
+        package_version = package.split("==")
+        if len(package_version) > 2:
+            # invalid format, don't use
+            print(f"requested package {package} has invalid format, will install latest version (of {package_version[0]}) if allowed")
+            package = package_version[0]
+        elif len(package_version) == 2:
+            version = package_version[1]
+            if not VERSION_PATTERN.match(version):
+                # invalid format of version, don't use
+                print(f"requested package {package} has invalid version, will install latest version (of {package_version[0]}) if allowed")
+                package = package_version[0]
+        #print("accepted package name: ", package)
+        #print("package name ", package_version[0])
+        if package_version[0] in whitelist:
+            # package must be in whitelist, so format check unnecessary
             subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+            print(f"{package_version[0]} installed")
+        else:
+            sys.exit(f"{package_version[0]} is not an allowed package. Please contact the organizers on GitHub to request acceptance of the package.")
 
 
 def main():
