@@ -78,14 +78,14 @@ def install_from_whitelist(req_file):
         package_version = package.split("==")
         if len(package_version) > 2:
             # invalid format, don't use
-            print(f"requested package {package} has invalid format")
-            continue
+            print(f"requested package {package} has invalid format, will install latest version (of {package_version[0]}) if allowed")
+            package = package_version[0]
         elif len(package_version) == 2:
             version = package_version[1]
             if not VERSION_PATTERN.match(version):
                 # invalid format of version, don't use
-                print(f"requested package {package} has invalid version")
-                continue
+                print(f"requested package {package} has invalid version, will install latest version (of {package_version[0]}) if allowed")
+                package = package_version[0]
         #print("accepted package name: ", package)
         #print("package name ", package_version[0])
         if package_version[0] in whitelist:
