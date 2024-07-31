@@ -69,7 +69,7 @@ def print_pretty(text):
 
 def install_from_whitelist(req_file):
 
-    whitelist = open("whitelist.txt", 'r').readlines()
+    whitelist = open("/app/program/whitelist.txt", 'r').readlines()
     whitelist = [i.rstrip('\n') for i in whitelist]
     print(whitelist)
 
