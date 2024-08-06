@@ -7,3 +7,14 @@ torch
 open-clip-torch
 torchvision
 transformers
+pandas
+Pillow
+scipy
+tqdm
+pyarrow
+matplotlib
+xgboost
+nflows
+lightgbm
+seaborn
+iminuit
