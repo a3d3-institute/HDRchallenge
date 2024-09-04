@@ -12,9 +12,14 @@ Pillow
 scipy
 tqdm
 pyarrow
+duckdb
 matplotlib
 xgboost
 nflows
 lightgbm
 seaborn
 iminuit
+timm
+torchaudio
+catboost
+plotly
