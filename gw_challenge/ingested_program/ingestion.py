@@ -8,7 +8,7 @@ import time
 
 
 # expected version pattern for requirements
-VERSION_PATTERN = re.compile("^[0-9].[0-9].[0-9]$")
+VERSION_PATTERN = re.compile("^[N!]N(.N)*[{a|b|rc}N][.postN][.devN]$")
 
 # Input directory to read test input from
 input_dir = sys.argv[1]
