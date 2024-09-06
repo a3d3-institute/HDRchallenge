@@ -23,3 +23,5 @@ timm
 torchaudio
 catboost
 plotly
+netCDF4
+xarray
