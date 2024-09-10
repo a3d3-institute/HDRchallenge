@@ -72,7 +72,11 @@ def main():
 
     # Compute Score
     print_pretty('Computing score')
-    score = (prediction == solution).sum() / len(prediction)
+    # Identify the 50 most anomalous events
+    num_anomalous_events = 50
+    anomalous_indices = np.argsort(prediction)[-num_anomalous_events:]
+    prediction = solution[anomalous_indices]
+    score = np.sum(prediction == 1) / num_anomalous_events
     print("Accuracy: ", score)
 
     # Write Score

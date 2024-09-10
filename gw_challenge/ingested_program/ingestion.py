@@ -5,10 +5,8 @@ import re
 import numpy as np
 import pandas as pd
 import time
-
-
-# expected version pattern for requirements
-VERSION_PATTERN = re.compile("^[0-9].[0-9].[0-9]$")
+from datetime import datetime, timezone
+from packaging.version import Version, InvalidVersion
 
 # Input directory to read test input from
 input_dir = sys.argv[1]
@@ -32,21 +30,37 @@ def get_prediction_data():
 
     return X_test
 
-def save_prediction(prediction_prob):
+def install_from_whitelist(req_file, program_dir):
+    whitelist = open(os.path.join(program_dir,"whitelist.txt"), 'r').readlines()
+    whitelist = [i.rstrip('\n') for i in whitelist]
+    # print(whitelist)
 
-    prediction_file = os.path.join(output_dir, 'test.predictions')
+    for package in open(req_file, 'r').readlines():
+        package = package.rstrip('\n')
+        package_version = package.split("==")
+        if len(package_version) > 2:
+            # invalid format, don't use
+            print(f"requested package {package} has invalid format, will install latest version (of {package_version[0]}) if allowed")
+            package = package_version[0]
+        elif len(package_version) == 2:
+            version_str = package_version[1]
+            Version(version_str)
+            # try:
+            #     Version(version_str)
+            # except InvalidVersion:
+            #     print(f"requested package {package} has invalid version, will install latest version (of {package_version[0]}) if allowed")
+            #     package = package_version[0]
 
-    predictions = np.array(prediction_prob)
+        #print("accepted package name: ", package)
+        #print("package name ", package_version[0])
+        if package_version[0] in whitelist:
+            # package must be in whitelist, so format check unnecessary
+            subprocess.check_call([executable, "-m", "pip", "install", package])
+            print(f"{package_version[0]} installed")
+        else:
+            exit(f"{package_version[0]} is not an allowed package. Please contact the organizers on GitHub to request acceptance of the package.")
 
-    # predictions = tp_cut(predictions)
 
-    with open(prediction_file, 'w') as f:
-        for ind, lbl in enumerate(predictions):
-            str_label = str(lbl)
-            if ind < len(predictions)-1:
-                f.write(str_label + "\n")
-            else:
-                f.write(str_label)
 
 # def tp_cut(predictions):
 
