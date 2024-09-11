@@ -5,6 +5,8 @@ import re
 import numpy as np
 import pandas as pd
 import time
+from sys import argv, path, executable, exit
+import subprocess
 from datetime import datetime, timezone
 from packaging.version import Version, InvalidVersion
 
@@ -19,19 +21,26 @@ submission_dir = sys.argv[3]
 sys.path.append(output_dir)
 sys.path.append(submission_dir)
 
+from model import Model
+
+
 def get_prediction_data():
 
     # set test data and solution file
-    test_data_file = os.path.join(input_dir, 'ligo_blackbox.npz')
+    test_data_file = os.path.join(input_dir, 'ligo_bb_50.npz')
 
     # Read Test data
     with np.load(test_data_file) as file:
-        X_test = file['data'].reshape((-1, 200, 2))
+        X_test = file['data']
+        stds = np.std(X_test, axis=-1)[:, :, np.newaxis]
+        X_test = X_test/stds
+        X_test = np.swapaxes(X_test, 1, 2)
 
     return X_test
 
-def install_from_whitelist(req_file, program_dir):
-    whitelist = open(os.path.join(program_dir,"whitelist.txt"), 'r').readlines()
+
+def install_from_whitelist(req_file):
+    whitelist = open("/app/program/whitelist.txt", 'r').readlines()
     whitelist = [i.rstrip('\n') for i in whitelist]
     # print(whitelist)
 
@@ -60,12 +69,10 @@ def install_from_whitelist(req_file, program_dir):
         else:
             exit(f"{package_version[0]} is not an allowed package. Please contact the organizers on GitHub to request acceptance of the package.")
 
-
-
 # def tp_cut(predictions):
 
 #     # answers file
-#     test_data_file = os.path.join(input_dir, 'ligo_blackbox.npz')
+#     test_data_file = os.path.join(input_dir, 'ligo_bb_50.npz')
 
 #     # Read solutions
 #     with np.load(test_data_file) as file:
@@ -81,33 +88,21 @@ def print_pretty(text):
     print("-------------------")
 
 
-def install_from_whitelist(req_file):
+def save_prediction(prediction_prob):
 
-    whitelist = open("/app/program/whitelist.txt", 'r').readlines()
-    whitelist = [i.rstrip('\n') for i in whitelist]
-    print(whitelist)
+    prediction_file = os.path.join(output_dir, 'test.predictions')
 
-    for package in open(req_file, 'r').readlines():
-        package = package.rstrip('\n')
-        package_version = package.split("==")
-        if len(package_version) > 2:
-            # invalid format, don't use
-            print(f"requested package {package} has invalid format, will install latest version (of {package_version[0]}) if allowed")
-            package = package_version[0]
-        elif len(package_version) == 2:
-            version = package_version[1]
-            if not VERSION_PATTERN.match(version):
-                # invalid format of version, don't use
-                print(f"requested package {package} has invalid version, will install latest version (of {package_version[0]}) if allowed")
-                package = package_version[0]
-        #print("accepted package name: ", package)
-        #print("package name ", package_version[0])
-        if package_version[0] in whitelist:
-            # package must be in whitelist, so format check unnecessary
-            subprocess.check_call([sys.executable, "-m", "pip", "install", package])
-            print(f"{package_version[0]} installed")
-        else:
-            sys.exit(f"{package_version[0]} is not an allowed package. Please contact the organizers on GitHub to request acceptance of the package.")
+    predictions = np.array(prediction_prob)
+
+    # predictions = tp_cut(predictions)
+
+    with open(prediction_file, 'w') as f:
+        for ind, lbl in enumerate(predictions):
+            str_label = str(lbl)
+            if ind < len(predictions)-1:
+                f.write(str_label + "\n")
+            else:
+                f.write(str_label)
 
 
 def main():
@@ -128,8 +123,6 @@ def main():
     print_pretty(f'Duration of the package installation: {duration}')
 
     start = time.time()
-
-    from model import Model
 
     print_pretty('Reading Data')
     X_test = get_prediction_data()

@@ -33,14 +33,14 @@ def read_prediction():
 def read_solution():
     print(os.listdir(solutions))
 
-    solution_file = os.path.join(solutions, 'answer.npy')
+    solution_file = os.path.join(solutions, 'ligo_bb_50.npz')
 
     # Check if file exists
     if not os.path.isfile(solution_file):
         print('[-] Test solution file not found!')
         return
 
-    test_labels = np.load(solution_file)
+    test_labels = np.load(solution_file)['ids']
     
     return test_labels
 
