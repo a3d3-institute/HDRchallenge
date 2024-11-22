@@ -8,7 +8,7 @@ RUN apt-get install -y pkg-config
 RUN apt-get install -y hdf5-tools
 # Install Python packages
 RUN pip3 install --upgrade pip && \
-    pip3 install numpy pandas pyarrow matplotlib xgboost scikit-learn nflows lightgbm seaborn iminuit keras transformers
+    pip3 install numpy pandas pyarrow matplotlib xgboost scikit-learn nflows lightgbm seaborn iminuit keras transformers netcdf4 h5netcdf scipy xarray
 # RUN pip3 install versioned-hdf5 wheel h5py
 # Install TensorFlow and PyTorch
 RUN pip3 install tensorflow[and-cuda]
