@@ -31,16 +31,14 @@ def read_prediction():
 
 
 def read_solution():
-    print(os.listdir(solutions))
-
-    solution_file = os.path.join(solutions, 'answer.npy')
+    solution_file = os.path.join(solutions, 'ligo_bb_50.npz')
 
     # Check if file exists
     if not os.path.isfile(solution_file):
         print('[-] Test solution file not found!')
         return
 
-    test_labels = np.load(solution_file)
+    test_labels = np.load(solution_file)['ids']
     
     return test_labels
 
@@ -74,6 +72,12 @@ def main():
     print_pretty('Computing score')
     score = (prediction == solution).sum() / len(prediction)
     print("Accuracy: ", score)
+    # Identify the 50 most anomalous events
+    # num_anomalous_events = 50
+    # anomalous_indices = np.argsort(prediction)[-num_anomalous_events:]
+    # prediction = solution[anomalous_indices]
+    # score = np.sum(prediction == 1) / num_anomalous_events
+    # print("Accuracy: ", score)
 
     # Write Score
     print_pretty('Saving prediction')
