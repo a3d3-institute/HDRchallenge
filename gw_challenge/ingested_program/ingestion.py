@@ -27,7 +27,7 @@ from model import Model
 def get_prediction_data():
 
     # set test data and solution file
-    test_data_file = os.path.join(input_dir, 'ligo_bb_50.npz')
+    test_data_file = os.path.join(input_dir, 'ligo_blackbox.npz')
 
     # Read Test data
     with np.load(test_data_file) as file:
@@ -69,17 +69,17 @@ def install_from_whitelist(req_file):
         else:
             exit(f"{package_version[0]} is not an allowed package. Please contact the organizers on GitHub to request acceptance of the package.")
 
-# def tp_cut(predictions):
+def tp_cut(predictions):
 
-#     # answers file
-#     test_data_file = os.path.join(input_dir, 'ligo_bb_50.npz')
+    # answers file
+    test_data_file = os.path.join(input_dir, 'ligo_blackbox.npz')
 
-#     # Read solutions
-#     with np.load(test_data_file) as file:
-#         y_test = file['ids']
-#         predictions = (predictions >= np.percentile(predictions[y_test == np.ones(len(y_test))], 90)).astype(int)
+    # Read solutions
+    with np.load(test_data_file) as file:
+        y_test = file['ids']
+        predictions = (predictions >= np.percentile(predictions[y_test == np.ones(len(y_test))], 90)).astype(int)
 
-#     return predictions
+    return predictions
 
 
 def print_pretty(text):
@@ -94,7 +94,7 @@ def save_prediction(prediction_prob):
 
     predictions = np.array(prediction_prob)
 
-    # predictions = tp_cut(predictions)
+    predictions = tp_cut(predictions)
 
     with open(prediction_file, 'w') as f:
         for ind, lbl in enumerate(predictions):

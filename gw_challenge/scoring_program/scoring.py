@@ -33,7 +33,7 @@ def read_prediction():
 def read_solution():
     print(os.listdir(solutions))
 
-    solution_file = os.path.join(solutions, 'ligo_bb_50.npz')
+    solution_file = os.path.join(solutions, 'ligo_blackbox.npz')
 
     # Check if file exists
     if not os.path.isfile(solution_file):
@@ -45,11 +45,11 @@ def read_solution():
     return test_labels
 
 
-def save_score(score):
+def save_score(FPR):
     score_file = os.path.join(output_dir, 'scores.json')
 
     scores = {
-        'accuracy': score,
+        'FPR': FPR,
     }
     with open(score_file, 'w') as f_score:
         f_score.write(json.dumps(scores))
@@ -72,16 +72,16 @@ def main():
 
     # Compute Score
     print_pretty('Computing score')
-    # Identify the 50 most anomalous events
-    num_anomalous_events = 50
-    anomalous_indices = np.argsort(prediction)[-num_anomalous_events:]
-    prediction = solution[anomalous_indices]
-    score = np.sum(prediction == 1) / num_anomalous_events
-    print("Accuracy: ", score)
+    tp = np.sum(np.logical_and(prediction == 1, solution == 1))
+    tn = np.sum(np.logical_and(prediction == 0, solution == 0))
+    fp = np.sum(np.logical_and(prediction == 1, solution == 0))
+    fn = np.sum(np.logical_and(prediction == 0, solution == 1))   
+    FPR = fp / (fp + tn) 
+    print("FPR: ", FPR)
 
     # Write Score
     print_pretty('Saving prediction')
-    save_score(score)
+    save_score(FPR)
 
 
 if __name__ == '__main__':
