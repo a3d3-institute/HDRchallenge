@@ -33,7 +33,7 @@ def read_prediction():
 def read_solution():
     print(os.listdir(solutions))
 
-    solution_file = os.path.join(solutions, 'ligo_blackbox.npz')
+    solution_file = os.path.join(solutions, 'ligo_bb_50.npz')
 
     # Check if file exists
     if not os.path.isfile(solution_file):

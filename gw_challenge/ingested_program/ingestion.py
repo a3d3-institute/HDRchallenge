@@ -27,7 +27,7 @@ from model import Model
 def get_prediction_data():
 
     # set test data and solution file
-    test_data_file = os.path.join(input_dir, 'ligo_blackbox.npz')
+    test_data_file = os.path.join(input_dir, 'ligo_bb_50.npz')
 
     # Read Test data
     with np.load(test_data_file) as file:
@@ -72,7 +72,7 @@ def install_from_whitelist(req_file):
 def tp_cut(predictions):
 
     # answers file
-    test_data_file = os.path.join(input_dir, 'ligo_blackbox.npz')
+    test_data_file = os.path.join(input_dir, 'ligo_bb_50.npz')
 
     # Read solutions
     with np.load(test_data_file) as file:
