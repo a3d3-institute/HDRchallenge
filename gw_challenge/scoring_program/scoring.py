@@ -45,11 +45,11 @@ def read_solution():
     return test_labels
 
 
-def save_score(FPR):
+def save_score(TNR):
     score_file = os.path.join(output_dir, 'scores.json')
 
     scores = {
-        'FPR': FPR,
+        'TNR': TNR,
     }
     with open(score_file, 'w') as f_score:
         f_score.write(json.dumps(scores))
@@ -76,12 +76,12 @@ def main():
     tn = np.sum(np.logical_and(prediction == 0, solution == 0))
     fp = np.sum(np.logical_and(prediction == 1, solution == 0))
     fn = np.sum(np.logical_and(prediction == 0, solution == 1))   
-    FPR = fp / (fp + tn) 
-    print("FPR: ", FPR)
+    TNR = tn / (fp + tn) 
+    print("TNR: ", TNR)
 
     # Write Score
     print_pretty('Saving prediction')
-    save_score(FPR)
+    save_score(TNR)
 
 
 if __name__ == '__main__':
