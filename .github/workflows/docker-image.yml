@@ -13,6 +13,10 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
+    - name: Remove unnecessary files
+      run: |
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf "$AGENT_TOOLSDIRECTORY"    
     - uses: actions/checkout@v4
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag hdr-image:$(date +%s)
