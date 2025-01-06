@@ -49,7 +49,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: $(date +%s)
+        tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Generate artifact attestation
