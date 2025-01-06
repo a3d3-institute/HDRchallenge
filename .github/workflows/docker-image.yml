@@ -48,8 +48,8 @@ jobs:
       uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
       with:
         context: .
-        push: false
-        tags: ${{ steps.meta.outputs.tags }}
+        push: true
+        tags: $(date +%s)
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Generate artifact attestation
@@ -57,7 +57,4 @@ jobs:
       with:
         subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
         subject-digest: ${{ steps.push.outputs.digest }}
-        push-to-registry: false
-    
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag hdr-image:$(date +%s)
+        push-to-registry: true
