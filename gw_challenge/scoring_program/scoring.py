@@ -82,6 +82,7 @@ def main():
     # Avoid TNR = NaN
     if np.isnan(TNR):
         TNR = 0.0
+        print("TNR is NaN, setting to 0.0")
 
     # Write Score
     print_pretty('Saving prediction')
