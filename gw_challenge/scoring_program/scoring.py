@@ -79,6 +79,10 @@ def main():
     TNR = tn / (fp + tn) 
     print("TNR: ", TNR)
 
+    # Avoid TNR = NaN
+    if np.isnan(TNR):
+        TNR = 0.0
+
     # Write Score
     print_pretty('Saving prediction')
     save_score(TNR)
