@@ -26,3 +26,5 @@ plotly
 netCDF4
 xarray
 PyWavelets
+opencv-python-headless
+albumentations
