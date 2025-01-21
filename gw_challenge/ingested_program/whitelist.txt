@@ -28,3 +28,4 @@ xarray
 PyWavelets
 opencv-python-headless
 albumentations
+ultralytics
