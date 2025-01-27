@@ -77,7 +77,7 @@ def tp_cut(predictions):
     # Read solutions
     with np.load(test_data_file) as file:
         y_test = file['ids']
-        predictions = (predictions >= np.percentile(predictions[y_test == np.ones(len(y_test))], 90)).astype(int)
+        predictions = (predictions >= np.percentile(predictions[y_test == np.ones(len(y_test))], 10)).astype(int)
 
     return predictions
 
