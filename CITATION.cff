@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you find this software helpful in your research, please cite it as below."
+type: software
+title: "A3D3 HDR Gravitational Wave Anomaly Detection Challenge"
+abstract: "Supporting code for the A3D3 HDR Challenge on anomaly detection in gravitational-wave strain data from LIGO's O3 observations. Participants develop machine learning algorithms to identify anomalous transient gravitational-wave signals from unknown sources."
+authors:
+  - family-names: Govorkova
+    given-names: Ekaterina
+    email: ekaterina.govorkova@cern.ch
+    orcid: "https://orcid.org/0000-0003-1920-6618"
+  - family-names: Chou
+    given-names: Yuan-Tang
+    email: yuan-tang.chou@cern.ch
+    orcid: "https://orcid.org/0000-0002-2204-5731"
+  - family-names: Campolongo
+    given-names: "Elizabeth G."
+    orcid: "https://orcid.org/0000-0003-0846-2413"
+  - family-names: Anand
+    given-names: Advaith
+repository-code: "https://github.com/a3d3-institute/HDRchallenge"
+license: MIT
+keywords:
+  - "gravitational waves"
+  - "anomaly detection"
+  - "LIGO"
+  - "machine learning"
+  - "HDR"
+  - "A3D3"
+  - "ML challenge"
+date-released: "2026-04-06"
